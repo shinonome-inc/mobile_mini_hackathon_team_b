@@ -12,7 +12,7 @@ class TopPage extends StatelessWidget {
           onPressed: () {
             final DateTime startTime = DateTime.now();
             final DateTime endTime = startTime.add(
-              const Duration(minutes: 90),
+              const Duration(minutes: 3),
             );
             Navigator.of(context).push(
               MaterialPageRoute(
