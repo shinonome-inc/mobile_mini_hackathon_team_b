@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: '>=2.19.0 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.18.1
   audioplayers: ^4.1.0
   flutter_tts: ^3.7.0
+  flutter_native_splash: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -92,3 +93,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_native_splash:
+  color: '#ffffff'
+  image: 'assets/images/splash.png'
+  color_dark: '#e1cf26'
+  image_dark: 'assets/images/splash.png'
+  fullscreen: true
+  android_12:
+    icon_background_color: '#ffffff'
+    image: 'assets/images/splash_android12.png'
+    icon_background_color_dark: '#e1cf26'
+    image_dark: 'assets/images/splash_android12.png'

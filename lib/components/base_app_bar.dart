@@ -12,7 +12,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'images/appbar.png',
+            'assets/images/appbar.png',
             height: 60, // 画像の高さを適宜調整
           ),
         ],
