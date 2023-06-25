@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_mini_hackathon_team_b/pages/home_page.dart';
 import 'package:mobile_mini_hackathon_team_b/components/base_app_bar.dart';
+import 'package:mobile_mini_hackathon_team_b/pages/home_page.dart';
 
-const List<String> list = <String>['振動する', 'BGMを流す', '教授にメール送信'];
+const List<String> list = <String>[
+  'BGMを流す',
+  '先生への謝罪文を読み上げる',
+  '教授にメール送信（Coming soon）',
+];
 const Color focusedColor = Colors.amber;
 
 class TopPage extends StatefulWidget {
@@ -17,7 +21,6 @@ class _TopPageState extends State<TopPage> {
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
   DateTime now = DateTime.now();
-
 
   /*
    * タイムピッカー
@@ -75,16 +78,14 @@ class _TopPageState extends State<TopPage> {
       appBar: BaseAppBar(),
       body: Column(
         children: [
-          const SizedBox (
+          const SizedBox(
             height: 48,
           ),
-          const Text(
-            '授業開始時刻',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 20,
-            )
-          ),
+          const Text('授業開始時刻',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 20,
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -104,40 +105,35 @@ class _TopPageState extends State<TopPage> {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text(
-                        '時刻選択',
+                    child: Text('時刻選択',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                        )
-                    ),
+                        )),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox (
+          const SizedBox(
             height: 32,
           ),
-          const Text(
-              '授業終了時刻',
+          const Text('授業終了時刻',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 20,
-              )
-          ),
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${endTime.hour.toString().padLeft(2, "0")}:${endTime.minute.toString().padLeft(2, "0")}',
-                  style: const TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  )
-                ),
+                    '${endTime.hour.toString().padLeft(2, "0")}:${endTime.minute.toString().padLeft(2, "0")}',
+                    style: const TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    )),
                 ElevatedButton(
                   onPressed: () => _selectTime(context, endTime),
                   style: ElevatedButton.styleFrom(
@@ -145,29 +141,25 @@ class _TopPageState extends State<TopPage> {
                   ),
                   child: const Padding(
                     padding: EdgeInsets.all(8),
-                    child: Text(
-                        '時刻選択',
+                    child: Text('時刻選択',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                        )
-                    ),
+                        )),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox (
+          const SizedBox(
             height: 32,
           ),
-          const Text(
-              '罰ゲーム',
+          const Text('罰ゲーム',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-              )
-          ),
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: DropdownButtonFormField<String>(
@@ -206,13 +198,21 @@ class _TopPageState extends State<TopPage> {
           const Spacer(),
           ElevatedButton(
             onPressed: () {
-              DateTime dateTime1 = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
-              DateTime dateTime2 = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
+              DateTime dateTime1 = DateTime(now.year, now.month, now.day,
+                  startTime.hour, startTime.minute);
+              DateTime dateTime2 = DateTime(
+                  now.year, now.month, now.day, endTime.hour, endTime.minute);
               if (dateTime1.isAfter(dateTime2)) {
                 _showComparisonDialog();
               } else {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HomePage()),
+                  MaterialPageRoute(
+                    builder: (context) => HomePage(
+                      startTime: dateTime1,
+                      endTime: dateTime2,
+                      dropdownValue: dropdownValue,
+                    ),
+                  ),
                 );
               }
             },
@@ -223,16 +223,14 @@ class _TopPageState extends State<TopPage> {
             ),
             child: const Padding(
               padding: EdgeInsets.all(16),
-              child: Text(
-                '授業を受ける！',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )
-              ),
+              child: Text('授業を受ける！',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
           ),
-          const SizedBox (
+          const SizedBox(
             height: 120,
           ),
         ],

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-class BaseAppBar extends StatelessWidget implements PreferredSizeWidget{
-
+class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   const BaseAppBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.yellow,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'images/appbar.png',
+            'assets/images/appbar.png',
             height: 60, // 画像の高さを適宜調整
           ),
         ],
