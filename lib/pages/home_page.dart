@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_mini_hackathon_team_b/constants/sound_paths.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -37,6 +39,11 @@ class _HomePageState extends State<HomePage> {
   String _formatDateTime(DateTime time) {
     final DateFormat dateFormat = DateFormat('HH:mm');
     return dateFormat.format(time);
+  }
+
+  void _playSound() {
+    final AudioPlayer player = AudioPlayer();
+    player.play(AssetSource(SoundPaths.bgm));
   }
 
   @override
