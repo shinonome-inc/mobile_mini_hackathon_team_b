@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final AudioPlayer player = AudioPlayer();
+  late Timer timer;
   static const int graceSeconds = 10;
   int _elapsedSeconds = 0;
   int _cancelButtonAppearanceSeconds = 0;
@@ -27,8 +29,7 @@ class _HomePageState extends State<HomePage> {
   int get _timeLimit =>
       showCancelButton ? _penaltyGameSeconds - _elapsedSeconds : 1;
 
-  bool get showCancelButton =>
-      _elapsedSeconds >= _cancelButtonAppearanceSeconds;
+  bool showCancelButton = false;
 
   int _generateRandomValue() {
     int maxNumber = 20;
@@ -41,8 +42,11 @@ class _HomePageState extends State<HomePage> {
     return dateFormat.format(time);
   }
 
+  void _cancelTimer() {
+    timer.cancel();
+  }
+
   void _playSound() {
-    final AudioPlayer player = AudioPlayer();
     player.play(AssetSource(SoundPaths.bgm));
   }
 
@@ -50,9 +54,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _cancelButtonAppearanceSeconds = _generateRandomValue();
-    Timer.periodic(
+    timer = Timer.periodic(
       const Duration(seconds: 1),
       (Timer timer) {
+        showCancelButton = _elapsedSeconds >= _cancelButtonAppearanceSeconds;
         setState(() {
           _elapsedSeconds++;
         });
@@ -60,8 +65,8 @@ class _HomePageState extends State<HomePage> {
           _penaltyGameSeconds = _cancelButtonAppearanceSeconds + graceSeconds;
         }
         if (_timeLimit <= 0) {
-          print('罰ゲーム執行');
-          _cancelButtonAppearanceSeconds += _generateRandomValue();
+          _playSound();
+          _cancelTimer();
         }
       },
     );
@@ -85,16 +90,32 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Text('経過秒数: $_elapsedSeconds'),
-              Text('キャンセルボタン出現秒数: $_cancelButtonAppearanceSeconds'),
-              Text('罰ゲーム開始秒数: $_penaltyGameSeconds'),
-              Text('罰ゲーム開始まで: $_timeLimit'),
-              const SizedBox(height: 16.0),
-              const Text('警告が表示されたらキャンセルを選択してください。\nキャンセルしないと罰ゲームが執行されます。'),
+              const Text('警告が表示されたら必ずキャンセルしてください。'),
               const SizedBox(height: 64.0),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('キャンセル'),
+              SizedBox(
+                height: 120.0,
+                child: showCancelButton
+                    ? Column(
+                        children: [
+                          const Text(
+                            '⚠️$graceSeconds秒以内にキャンセルしてください。\nキャンセルしないと大音量で音楽が再生されます。',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              _cancelTimer();
+                              player.stop();
+                              setState(() {
+                                showCancelButton = false;
+                              });
+                            },
+                            child: const Text('キャンセル'),
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
