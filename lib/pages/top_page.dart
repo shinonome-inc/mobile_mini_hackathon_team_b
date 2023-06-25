@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile_mini_hackathon_team_b/components/base_app_bar.dart';
 import 'package:mobile_mini_hackathon_team_b/pages/home_page.dart';
 
-const List<String> list = <String>['振動する', 'BGMを流す', '教授にメール送信'];
+const List<String> list = <String>[
+  'BGMを流す',
+  '先生への謝罪文を読み上げる',
+  '教授にメール送信（Coming soon）',
+];
 const Color focusedColor = Colors.amber;
 
 class TopPage extends StatefulWidget {
@@ -201,15 +205,12 @@ class _TopPageState extends State<TopPage> {
               if (dateTime1.isAfter(dateTime2)) {
                 _showComparisonDialog();
               } else {
-                final DateTime startTime = DateTime.now();
-                final DateTime endTime = startTime.add(
-                  const Duration(minutes: 3),
-                );
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => HomePage(
-                      startTime: startTime,
-                      endTime: endTime,
+                      startTime: dateTime1,
+                      endTime: dateTime2,
+                      dropdownValue: dropdownValue,
                     ),
                   ),
                 );

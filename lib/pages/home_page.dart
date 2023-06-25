@@ -5,17 +5,21 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_mini_hackathon_team_b/components/base_app_bar.dart';
 import 'package:mobile_mini_hackathon_team_b/constants/sound_paths.dart';
 import 'package:mobile_mini_hackathon_team_b/constants/speechText.dart';
+import 'package:mobile_mini_hackathon_team_b/pages/top_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
     Key? key,
     required this.startTime,
     required this.endTime,
+    required this.dropdownValue,
   }) : super(key: key);
   final DateTime startTime;
   final DateTime endTime;
+  final String dropdownValue;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -73,8 +77,11 @@ class _HomePageState extends State<HomePage> {
           _penaltyGameSeconds = _cancelButtonAppearanceSeconds + graceSeconds;
         }
         if (_timeLimit <= 0) {
-          _speech();
-          // _playSound();
+          if (widget.dropdownValue == list.first) {
+            _playSound();
+          } else {
+            _speech();
+          }
           _cancelTimer();
         }
       },
@@ -84,6 +91,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const BaseAppBar(),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -107,11 +115,12 @@ class _HomePageState extends State<HomePage> {
                     ? Column(
                         children: [
                           const Text(
-                            '⚠️$graceSeconds秒以内にキャンセルしてください。\nキャンセルしないと大音量で音楽が再生されます。',
+                            '⚠️$graceSeconds秒以内にキャンセルしてください。\nキャンセルしないと大音量で罰ゲーム執行します。',
                             style: TextStyle(
                               color: Colors.red,
                             ),
                           ),
+                          const SizedBox(height: 16.0),
                           ElevatedButton(
                             onPressed: () {
                               _cancelTimer();
@@ -121,7 +130,21 @@ class _HomePageState extends State<HomePage> {
                                 showCancelButton = false;
                               });
                             },
-                            child: const Text('キャンセル'),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.yellow,
+                              backgroundColor: Colors.black,
+                              shape: const StadiumBorder(),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Text(
+                                'キャンセル',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       )
