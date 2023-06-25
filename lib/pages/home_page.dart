@@ -6,12 +6,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // TODO: アラートダイアログを表示
-          },
-          child: const Text('アラートダイアログを表示'),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                '授業時間13:00〜14:30',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text('警告が表示されたらキャンセルを選択してください。\nキャンセルしないと罰ゲームが執行されます。')
+            ],
+          ),
         ),
       ),
     );
