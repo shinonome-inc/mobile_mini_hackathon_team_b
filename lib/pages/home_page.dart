@@ -5,9 +5,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: Text('Home Page'),
+        child: ElevatedButton(
+          onPressed: () {
+            // TODO: アラートダイアログを表示
+          },
+          child: const Text('アラートダイアログを表示'),
+        ),
       ),
     );
   }
