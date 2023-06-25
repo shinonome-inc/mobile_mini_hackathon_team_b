@@ -3,8 +3,10 @@ import 'dart:math' as math;
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_mini_hackathon_team_b/constants/sound_paths.dart';
+import 'package:mobile_mini_hackathon_team_b/constants/speechText.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -21,6 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final AudioPlayer player = AudioPlayer();
+  final FlutterTts flutterTts = FlutterTts();
   late Timer timer;
   static const int graceSeconds = 10;
   int _elapsedSeconds = 0;
@@ -50,9 +53,14 @@ class _HomePageState extends State<HomePage> {
     player.play(AssetSource(SoundPaths.bgm));
   }
 
+  void _speech() {
+    flutterTts.speak(SpeechText.speechText);
+  }
+
   @override
   void initState() {
     super.initState();
+    flutterTts.setLanguage('ja');
     _cancelButtonAppearanceSeconds = _generateRandomValue();
     timer = Timer.periodic(
       const Duration(seconds: 1),
@@ -65,7 +73,8 @@ class _HomePageState extends State<HomePage> {
           _penaltyGameSeconds = _cancelButtonAppearanceSeconds + graceSeconds;
         }
         if (_timeLimit <= 0) {
-          _playSound();
+          _speech();
+          // _playSound();
           _cancelTimer();
         }
       },
@@ -107,6 +116,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               _cancelTimer();
                               player.stop();
+                              flutterTts.stop();
                               setState(() {
                                 showCancelButton = false;
                               });
